@@ -8,9 +8,37 @@ function drawMatrixGrid(size_x, size_y) {
       }
       MATRIX.push(row);
     }
-    
+  
     return MATRIX;
   }
   
-  console.log(drawMatrixGrid(3, 3));
+  function formatMatrixGrid(matrix) {
+    return matrix.map(row => row.join(', ')).join('\n');
+  }
+
+  function toggleCellIntersectionState({val_x, val_y, matrix})
+  {
+    try{
+        matrix[val_y][val_x] = matrix[val_y][val_x] === 0 ? 1 : 0;
+
+    } catch
+    {
+        console.warn("Caugh Error: converting cell state")
+        return
+    }
+  }
+  
+  const matrix = drawMatrixGrid(3, 3);
+  
+  /* toggleCellIntersectionState(
+    {
+        val_x: 0,
+        val_y: 0,
+        matrix: matrix
+    }
+  ) */
+
+
+  console.log(formatMatrixGrid(matrix));
+  
   
