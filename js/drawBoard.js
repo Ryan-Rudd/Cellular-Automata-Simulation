@@ -1,13 +1,27 @@
 const canvas = document.getElementById('board');
 const ctx = canvas.getContext('2d');
-const tileSize = 40;
-const rows = canvas.height / tileSize;
-const columns = canvas.width / tileSize;
 
-// Draw the tiles
-for (let row = 0; row < rows; row++) {
-    for (let col = 0; col < columns; col++) {
-        drawTile(col, row, tileSize, '#CCCCCC');
+// Function to calculate and update canvas dimensions
+function updateCanvasDimensions() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    redrawBoard();
+}
+
+// Function to redraw the board
+function redrawBoard() {
+    const tileSize = 20;
+    const rows = Math.floor(canvas.height / tileSize);
+    const columns = Math.floor(canvas.width / tileSize);
+
+    // Clear the canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Draw the tiles
+    for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < columns; col++) {
+            drawTile(col, row, tileSize, '#CCCCCC');
+        }
     }
 }
 
@@ -18,3 +32,7 @@ function drawTile(x, y, size, color) {
     ctx.strokeStyle = '#000000';
     ctx.strokeRect(x * size, y * size, size, size);
 }
+
+// Update the canvas dimensions initially and on window resize
+updateCanvasDimensions();
+window.addEventListener('resize', updateCanvasDimensions);
