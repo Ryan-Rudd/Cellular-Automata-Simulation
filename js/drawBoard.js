@@ -20,7 +20,7 @@ function redrawBoard() {
     // Draw the tiles
     for (let row = 0; row < rows; row++) {
         for (let col = 0; col < columns; col++) {
-            drawTile(col, row, tileSize, '#CCCCCC');
+            drawTile(col, row, tileSize, '#FFFFFF');
         }
     }
 }
@@ -29,7 +29,7 @@ function redrawBoard() {
 function drawTile(x, y, size, color) {
     ctx.fillStyle = color;
     ctx.fillRect(x * size, y * size, size, size);
-    ctx.strokeStyle = '#000000';
+    ctx.strokeStyle = '#00000038';
     ctx.strokeRect(x * size, y * size, size, size);
 }
 
