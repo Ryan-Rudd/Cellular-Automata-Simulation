@@ -127,18 +127,41 @@ class CELL {
     const currentState = cell.CHECK_STATE();
     let nextState = currentState;
   
-    if (currentState === 1) {
-      if (aliveNeighbors < 2 || aliveNeighbors > 3) {
-        nextState = 0; // cell dies due to underpopulation or overpopulation
-      }
-    } else {
+    if (currentState === 0) {
       if (aliveNeighbors === 3) {
         nextState = 1; // cell is born due to reproduction
+      } else if (aliveNeighbors === 6) {
+        nextState = 2; // cell moves to state 2
+      } else if (aliveNeighbors === 7 || aliveNeighbors === 8) {
+        nextState = 0; // cell remains alive
+      } else {
+        nextState = 0; // cell dies due to underpopulation or overpopulation
+      }
+    } else if (currentState === 1) {
+      if (aliveNeighbors === 0 || aliveNeighbors === 1) {
+        nextState = 0; // cell dies due to underpopulation
+      } else if (aliveNeighbors === 2 || aliveNeighbors === 3) {
+        nextState = 1; // cell remains alive
+      } else if (aliveNeighbors === 4 || aliveNeighbors === 5) {
+        nextState = 2; // cell moves to state 2
+      } else {
+        nextState = 0; // cell dies due to overpopulation
+      }
+    } else if (currentState === 2) {
+      if (aliveNeighbors === 0 || aliveNeighbors === 1 || aliveNeighbors === 2) {
+        nextState = 0; // cell dies due to underpopulation
+      } else if (aliveNeighbors === 3 || aliveNeighbors === 4) {
+        nextState = 1; // cell moves to state 1
+      } else if (aliveNeighbors === 5 || aliveNeighbors === 6 || aliveNeighbors === 7) {
+        nextState = 2; // cell remains in state 2
+      } else {
+        nextState = 0; // cell dies due to overpopulation
       }
     }
   
     cell.SET_NEXT_STATE(nextState);
   }
+  
   
   const canvas = document.getElementById('board');
   const ctx = canvas.getContext('2d');
@@ -174,6 +197,7 @@ class CELL {
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < columns; col++) {
         const cell = matrix[row][col];
+        cell.UPDATE_STATE();
         if (cell.isTransitionInProgress()) {
           const targetColor = cell.COLOR;
           const transitionedColor = cell.getTransitionedColor(targetColor);
@@ -194,7 +218,7 @@ class CELL {
   
     // Check if all generations have been displayed
     if (generation < maxGenerations) {
-      requestAnimationFrame(redrawBoard);
+      setTimeout(redrawBoard, generationDelay);
     }
   }
   
